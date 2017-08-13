@@ -1,0 +1,5 @@
+# For compilation lapack libraries are needed
+# Lapack can be downloaded from http://www.netlib.org/lapack/#_browse_download_lapack_routines_with_on_line_documentation_browser
+
+# Compiltation 
+gfortran -o yfspin half_spin.f90 lapack_location
