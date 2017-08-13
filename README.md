@@ -1,1 +1,1 @@
-#SAuYF : Spin Adaptation using Young Frame
+# SAuYF : Spin Adaptation using Young Frame
