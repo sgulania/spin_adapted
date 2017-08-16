@@ -1,0 +1,5 @@
+Requires 
+   LAPACK
+   libint <https://github.com/evaleev/libint> 
+   Eigen <http://eigen.tuxfamily.org>
+   C++ 11
