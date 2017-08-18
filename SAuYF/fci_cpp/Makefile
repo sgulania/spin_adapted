@@ -1,3 +1,8 @@
+#Make file for fci code
+# JDWhitfield 2017
+# Dartmouth College
+#
+
 CXX= g++
 #PROFILER_FLAG=-pg 
 WARNING_FLAG=-Wall -Wno-deprecated -Wfatal-errors
