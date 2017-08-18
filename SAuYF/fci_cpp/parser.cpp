@@ -1,18 +1,29 @@
 /******************************************************************************
  * 
- * integrals.c
+ * parser.cpp
  *
- * Calling syntax:
- *    integrals basis_functions nuc_field
+ * This file has functions to parse inputs from various file formats for use in
+ * other parts of the code base e.g. ci_matrix.cpp
  *
- * This program computes the overlap, the kinetic and the two-electron integrals
- * using the given basis functions.  If the nuc_field is included, then the Vij
- * integrals should also be computed.
+ * JDWhitfield 2017
  *
- * VCQ, UPC-ES project
- * JDWhitfield 2015
+ ***
+ *
+ *      This program is free software: you can redistribute it and/or modify
+ *      it under the terms of the GNU General Public License as published by
+ *      the Free Software Foundation, either version 2 of the License, or
+ *      (at your option) any later version.
+ * 
+ *      This program is distributed in the hope that it will be useful,
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *      GNU General Public License for more details.
+ * 
+ *      You should have received a copy of the GNU General Public License
+ *      along with this program.  If not, see http://www.gnu.org/licenses/.
  *
  *****************************************************************************/
+
 
 // standard C headers
 #include<stdio.h>

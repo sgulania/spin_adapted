@@ -1,15 +1,12 @@
 /******************************************************************************
  * 
- * ci_matrix.cc [basis_func] [nuc_field]
+ * ci_matrix.cpp
  *
- * This program loads basis functions and nuclear field information to 
- * form a Hamiltonian and compute its eigenvalues.  
+ * This file has functions to form a Hamiltonian and compute its eigenvalues.  
  * 
  * JDWhitfield 
- * Dartmouth, 2016
- * Vienna, 2015
- *
- *
+ * Dartmouth, 2016-2017
+ * 
  *
  * Parts of the code are borrowed from the open-source projects 
  * Libints and PyQuante under the GNU General Public License.

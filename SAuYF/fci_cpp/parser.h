@@ -1,3 +1,14 @@
+/******************************************************************************
+ * 
+ * parser.cpp
+ *
+ * This file has functions to parse inputs from various file formats for use in
+ * other parts of the code base e.g. ci_matrix.cpp
+ *
+ * JDWhitfield 2017
+ *
+ *****************************************************************************/
+
 //
 // //start of header guard
 #ifndef PARSER_LIB
