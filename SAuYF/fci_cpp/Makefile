@@ -21,7 +21,7 @@ all: fci
 	
 
 fci:fci.o ci_matrix.o parser.o libint_interface.o
-	$(CXX) $(CXXFLAGS) fci.o libint_interface.o ci_matrix.o ensembles.o parser.o $(LIBS) -o fci
+	$(CXX) $(CXXFLAGS) fci.o libint_interface.o ci_matrix.o parser.o $(LIBS) -o fci
 
 parser.o: parser.cpp
 	$(CXX) parser.cpp $(CXXFLAGS) $(INCLUDESLibint) $(INCLUDESEig) -c -o parser.o
