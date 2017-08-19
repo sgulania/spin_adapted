@@ -1,6 +1,6 @@
 program half_spin
 implicit none
-integer i,j,k,l,a,b,c,d,ii
+integer i,j,k,l,a,b,c,d,ii,nn
 integer n_weyl,n_bas
 integer INFO, LWORK,LWORK_f
 real*8  val
@@ -80,7 +80,7 @@ end do
 
 !----------------------------------------------------------------------
 ! loading the integrals - Overlap , Core Hamiltinian, Nuclear repulsion
-!                         two electron integral (physicist notion)
+!                         two electron integral (input is expected to be in chemist notion)
 
 open(unit = 101, file = 'ham_ov.dat', status = 'old', action = 'read')
  read(101,*) n_bas
@@ -107,26 +107,17 @@ open(unit = 102, file = '2_ele.dat', status = 'old', action = 'read')
 
  allocate ( e1(n_bas**4), STAT = AllocateStatus)
    IF (AllocateStatus /= 0) STOP "*** Not enough memory ***"
-
-do i=1,n_bas**4
- read(102,*) e1(i)
+  read(102,*) nn
+do ii=1,nn
+ read(102,*) i,j,k,l,EEOv(i,k,j,l)
+ EEOv(j,k,i,l) = EEOv(i,k,j,l)
+ EEOv(i,l,j,k) = EEOv(i,k,j,l)
+ EEOv(j,l,i,k) = EEOv(i,k,j,l)
+ EEOv(k,i,l,j) = EEOv(i,k,j,l)
+ EEOv(k,j,l,i) = EEOv(i,k,j,l)
+ EEOv(l,i,k,j) = EEOv(i,k,j,l)
+ EEOv(l,j,k,i) = EEOv(i,k,j,l)
 end do
-
-
-ii=0
-do i=1,n_bas;
- do j=1,n_bas;
-  do k=1,n_bas;
-   do l=1,n_bas;
-       ii=ii+1;
-       EEOv(i,j,k,l)=e1(ii);
-!       EEOv(i,j,k,l)=0.d0
-   end do
-  end do
- end do
-end do
-
-
 
 S1=Ov
 
