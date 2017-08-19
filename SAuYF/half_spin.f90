@@ -1,23 +1,43 @@
-!Authors - James Daniel Whitfield - Dartmouth College - http://physics.dartmouth.edu/people/james-daniel-whitfield
-!        - Sahil Gulania - University of Southern California 
+!----------------------------------------------------------------------!
+!Authors - James Daniel Whitfield - Dartmouth College                  !
+!        - http://physics.dartmouth.edu/people/james-daniel-whitfield  !
+!        - Sahil Gulania - University of Southern California            !
+!---------------------------------------------------------------       !
 program half_spin
-!implicit double precision (A-Z)
+implicit none
 integer i,j,k,l,a,b,c,d,ii
-integer aa(9,3),a1(81),b1(81),c1(81),d1(81)
-integer p11(54,4)
-integer p12(36,4)
-real*8  Ov(3,3), HOv(3,3),e1(81),S1(3,3)
-real*8  EEOv(3,3,3,3)
-!common  S(3,3),H(3,3),EE(3,3,3,3)
-real*8  S(3,3),H(3,3),EE(3,3,3,3)
-real*8  W(3),WORK(8),W_f(9),WORK_f(26),X1(3,3),W1(3),WORK1(8)
-integer INFO, LWORK,LWORK_f,LWORK1
-real*8  val,H_f(9,9)
-real*8  Xsymm(3,3),H1(3,3)
+integer n_weyl,n_bas
+integer a1(81),b1(81),c1(81),d1(81)
+integer INFO, LWORK,LWORK_f
+real*8  val
+real*8  Xsymm(3,3)
+real*8  E_nuc
+integer AllocateStatus
+
+real*8,  dimension(:), allocatable  :: W_f,WORK_f
+real*8,  dimension(:), allocatable  :: W,WORK,e1
+
+real*8,  dimension(:,:), allocatable  :: H_f,Ov, HOv,S,H,S1,X1
+real*8,  dimension(:,:,:,:), allocatable  :: EEOv,EE
+integer, dimension(:,:), allocatable  :: aa,p11,p12
+
+
 open(unit = 100, file = 'weyl.dat', status = 'old', action = 'read')
- do i = 1,  9
- read(100,*) aa(i,1),aa(i,2),aa(i,3)
-end do
+ read(100,*) n_weyl
+
+allocate ( aa(n_weyl,3), STAT = AllocateStatus)
+   IF (AllocateStatus /= 0) STOP "*** Not enough memory ***"
+
+allocate ( W_f(n_weyl),WORK_f(3*n_weyl-1),H_f(n_weyl,n_weyl), STAT = AllocateStatus)
+   IF (AllocateStatus /= 0) STOP "*** Not enough memory ***"
+
+allocate (p11(n_weyl*6,4),p12(n_weyl*4,4), STAT = AllocateStatus)
+   IF (AllocateStatus /= 0) STOP "*** Not enough memory ***"
+
+ do i = 1, n_weyl
+  read(100,*) aa(i,1),aa(i,2),aa(i,3)
+ end do
+ close(100)
 
 ! do i = 1,8
 ! write(6,*) a(i,1),a(i,2),a(i,3)
@@ -26,7 +46,7 @@ end do
 
 !------------------------------------------------------------------
 ! Generating all the phi_11
-do i=1,9
+do i=1,n_weyl
 j=((i-1)*6)
 j=j+1
 p11(j,1) = 2; p11(j,2)= aa(i,1);p11(j,3)= aa(i,2);p11(j,4)=aa(i,3)
@@ -48,7 +68,7 @@ end do
 
 !-----------------------------------------------------------------
 ! Generating phi_12
-do i=1,9
+do i=1,n_weyl
 j=((i-1)*4)
 j=j+1
 p12(j,1) =1; p12(j,2)= aa(i,3);p12(j,3)= aa(i,2);p12(j,4)=aa(i,1)
@@ -66,16 +86,29 @@ end do
 !end do
 
 !----------------------------------------------------------------------
-! loading the integrals - Overlap , One electron, two electron 
+! loading the integrals - Overlap , Core Hamiltonian, Nuclear repulsion
+!                         two electron integral (physicist notion)
 
 open(unit = 101, file = 'ham_ov.dat', status = 'old', action = 'read')
- do i = 1,3
+ read(101,*) n_bas
+ allocate ( Ov(n_bas,n_bas),HOv(n_bas,n_bas),EEOv(n_bas,n_bas,n_bas,n_bas), STAT = AllocateStatus)
+   IF (AllocateStatus /= 0) STOP "*** Not enough memory ***"
+ allocate ( S(n_bas,n_bas),H(n_bas,n_bas),EE(n_bas,n_bas,n_bas,n_bas),S1(n_bas,n_bas), STAT = AllocateStatus)
+   IF (AllocateStatus /= 0) STOP "*** Not enough memory ***" 
+
+
+ do i = 1,n_bas
   read(101,*) Ov(i,1),Ov(i,2),Ov(i,3)
+  write(6,*) Ov(i,1),Ov(i,2),Ov(i,3)
  end do
 
- do i = 1,3 
+ do i = 1,n_bas
   read(101,*) HOv(i,1),HOv(i,2),HOv(i,3)
+  write(6,*) HOv(i,1),HOv(i,2),HOv(i,3)
  end do
+ read(101,*) E_nuc
+ close(101)
+
 
 ! do i = 1,3
 !  write(6,*) Ov(i,1),Ov(i,2),Ov(i,3)
@@ -86,24 +119,21 @@ open(unit = 101, file = 'ham_ov.dat', status = 'old', action = 'read')
 ! end do
 
 
-
 open(unit = 102, file = '2_ele.dat', status = 'old', action = 'read')
 
-! do i = 1,81
-!  read(102,*) a1(i),b1(i),c1(i),d1(i),e1(i)
-!  EEOv(a1(i),c1(i),b1(i),d1(i))=e1(i)
-!  EEOv(a1(i),c1(i),b1(i),d1(i))=0.d0
-! end do
+ allocate ( e1(n_bas**4), STAT = AllocateStatus)
+   IF (AllocateStatus /= 0) STOP "*** Not enough memory ***"
 
-do i=1,81
+do i=1,n_bas**4
  read(102,*) e1(i)
 end do
 
+
 ii=0
-do i=1,3;
- do j=1,3;
-  do k=1,3;
-   do l=1,3;
+do i=1,n_bas;
+ do j=1,n_bas;
+  do k=1,n_bas;
+   do l=1,n_bas;
        ii=ii+1;
        EEOv(i,j,k,l)=e1(ii);
 !       EEOv(i,j,k,l)=0.d0
@@ -113,21 +143,13 @@ do i=1,3;
 end do
 
 
-! do i = 1,81
-!  write(6,*) EEOv(a1(i),b1(i),c1(i),d1(i))
-! end do
-
-! Orthoganizlation of basis using canonical orthogonalization
-! [U1,D1]=eig(S1);
-
-!do i=1,3
-!   write(6,*)Ov(i,:)
-!end do
 
 S1=Ov
 
-LWORK=8
-call DSYEV( 'V', 'U', 3, Ov, 3, W, WORK, LWORK, INFO )
+ allocate ( W(n_bas),WORK(3*n_bas-1), STAT = AllocateStatus)
+   IF (AllocateStatus /= 0) STOP "*** Not enough memory ***"
+LWORK=3*n_bas-1
+call DSYEV( 'V', 'U', n_bas, Ov, n_bas, W, WORK, LWORK, INFO )
 
 ! do i=1,3
 !   write(6,*)S1(i,:)
@@ -136,8 +158,10 @@ call DSYEV( 'V', 'U', 3, Ov, 3, W, WORK, LWORK, INFO )
 !-------------------------------------------------------------
 ! Working in orthogonal basis 
 
- do i=1,3
-    do  j=1,3
+allocate ( X1(n_bas,n_bas), STAT = AllocateStatus)
+   IF (AllocateStatus /= 0) STOP "*** Not enough memory ***"
+ do i=1,n_bas
+    do  j=1,n_bas
       X1(i,j)=Ov(i,j)/sqrt(W(j))
     end do 
  end do 
@@ -162,20 +186,17 @@ S=matmul(transpose(X1),matmul(S1,X1))
 H=matmul(transpose(X1),matmul(HOv,X1))
 
 
-do i=1,3
-!write(6,*)S(i,:)
-enddo 
-do i=1,3
-  do j=1,3
-    do k=1,3
-      do l=1,3
+do i=1,n_bas
+  do j=1,n_bas
+    do k=1,n_bas
+      do l=1,n_bas
 
           EE(i,j,k,l)=0.d0
 
-         do a=1,3
-          do b=1,3
-           do c=1,3
-            do d=1,3
+         do a=1,n_bas
+          do b=1,n_bas
+           do c=1,n_bas
+            do d=1,n_bas
               EE(i,j,k,l)=EE(i,j,k,l)+X1(a,i)*X1(b,j)*X1(c,k)*X1(d,l)*EEOv(a,b,c,d)
             end do 
            end do 
@@ -191,50 +212,47 @@ do i=1,3
 !--------------------------------------------------------------------------------
 ! computing the Hessian matrix
 
-do i=1,9
-    do j=1,9
+do i=1,n_weyl
+    do j=1,n_weyl
        call one_element(p11(6*(i-1)+1:6*(i-1)+6,:),p12(4*(i-1)+1:4*(i-1)+4,:), &
-                        p11(6*(j-1)+1:6*(j-1)+6,:),p12(4*(j-1)+1:4*(j-1)+4,:),val,S,H,EE)
+                        p11(6*(j-1)+1:6*(j-1)+6,:),p12(4*(j-1)+1:4*(j-1)+4,:),val,S,H,EE,n_bas)
 
       H_f(i,j)=val
       
       if(abs(H_f(i,j)).lt.1.D-8) then
        H_f(i,j)=0.d0
       end if
-
+!      write(6,*) H_f(i,j)
     end do
 end do
 
-do i=1,9
+do i=1,n_weyl
 ! write(23,10)H_f(i,:)
 enddo 
 
 !--------------------------------------------------------------------------------
 !Digonalizing the matrix
 
-LWORK_f=26
-call DSYEV( 'V', 'U', 9, H_f, 9, W_f, WORK_f, LWORK_f, INFO )
+LWORK_f=3*n_weyl-1 
+call DSYEV( 'V', 'U', n_weyl, H_f, n_weyl, W_f, WORK_f, LWORK_f, INFO )
 
  write(6,*) "Spectrum for Sz=1/2"
-do i=1,9
- write(6,10)W_f(i)
+do i=1,n_weyl
+ write(6,10)W_f(i)+E_nuc
 10 format(8f13.8)
 enddo
-
-!H1=H
-!call DSYEV( 'V', 'U', 3, H1, 3, W, WORK, LWORK, INFO )
-!write(6,*)W
 
 
 end program half_spin
 
 
-subroutine one_element(a1,b1,a2,b2,val,S,H,EE)
-integer i,j,k,l
+subroutine one_element(a1,b1,a2,b2,val,S,H,EE,n_bas)
+integer i,j,k,l,n_bas
 integer a1(6,4),a2(6,4),b1(4,4),b2(4,4)
 integer aa1(6,3),aa2(6,3),bb1(4,3),bb2(4,3)
 real*8 v,val,val1,val2,nm,norm_aa1,norm_aa2,norm_bb1,norm_bb2
-real*8  S(3,3),H(3,3),EE(3,3,3,3)
+real*8  S(n_bas,n_bas),H(n_bas,n_bas),EE(n_bas,n_bas,n_bas,n_bas)
+
 !--------------------------------------------------------------------------------
 ! This subroutines compute 
 !  part <PHI(i)|H|PHI(j)>  where 
@@ -254,7 +272,7 @@ aa2=a2(:,2:4)   ! storing the components of phi_12(j)
 
  do i=1,6
   do k=1,6
-  call norm1(aa1(i,:),aa1(k,:),nm,S,H,EE)
+  call norm1(aa1(i,:),aa1(k,:),nm,S,H,EE,n_bas)
   norm_aa1=norm_aa1+a1(i,1)*a1(k,1)*nm/4.d0
   end do
  end do
@@ -263,7 +281,7 @@ aa2=a2(:,2:4)   ! storing the components of phi_12(j)
 
  do i=1,6
   do k=1,6
-   call norm1(aa2(i,:),aa2(k,:),nm,S,H,EE)
+   call norm1(aa2(i,:),aa2(k,:),nm,S,H,EE,n_bas)
    norm_aa2=norm_aa2+a2(i,1)*a2(k,1)*nm/4.d0
   end do
  end do
@@ -273,7 +291,7 @@ aa2=a2(:,2:4)   ! storing the components of phi_12(j)
 val1=0
  do i=1,6
    do j=1,6
-       call ham(aa1(i,:),aa2(j,:),v,S,H,EE)
+       call ham(aa1(i,:),aa2(j,:),v,S,H,EE,n_bas)
        val1=val1+a1(i,1)*a2(j,1)*v/4.d0
    end do
  end do
@@ -291,7 +309,7 @@ bb2=b2(:,2:4);    ! storing the components of phi_12(j)
 
  do i=1,4
   do k=1,4
-   call norm1(bb1(i,:),bb1(k,:),nm,S,H,EE)
+   call norm1(bb1(i,:),bb1(k,:),nm,S,H,EE,n_bas)
    norm_bb1=norm_bb1+b1(i,1)*b1(k,1)*nm*3.d0/4.d0
   end do 
  end do 
@@ -300,7 +318,7 @@ bb2=b2(:,2:4);    ! storing the components of phi_12(j)
 
  do i=1,4
   do k=1,4
-  call norm1(bb2(i,:),bb2(k,:),nm,S,H,EE)
+  call norm1(bb2(i,:),bb2(k,:),nm,S,H,EE,n_bas)
   norm_bb2=norm_bb2+b2(i,1)*b2(k,1)*nm*3.d0/4.d0
   end do
  end do
@@ -310,7 +328,7 @@ bb2=b2(:,2:4);    ! storing the components of phi_12(j)
 val2=0;
   do i=1,4
    do j=1,4
-       call ham(bb1(i,:),bb2(j,:),v,S,H,EE)
+       call ham(bb1(i,:),bb2(j,:),v,S,H,EE,n_bas)
        val2=val2+b1(i,1)*b2(j,1)*v*3.d0/4.d0
    end do
  end do
@@ -338,9 +356,9 @@ val2=0;
 end subroutine one_element 
 
 
-subroutine ham(a,p,v,S,H,EE)
-!common S(3,3),H(3,3),EE(3,3,3,3)
-real*8  S(3,3),H(3,3),EE(3,3,3,3)
+subroutine ham(a,p,v,S,H,EE,n_bas)
+integer n_bas
+real*8  S(n_bas,n_bas),H(n_bas,n_bas),EE(n_bas,n_bas,n_bas,n_bas)
 integer a(3),p(3)
 real*8  v
 ! this subroutine computes <123|H|456>
@@ -354,15 +372,12 @@ v = H(a(1),p(1))*S(a(2),p(2))*S(a(3),p(3))+ &
 
 end subroutine ham
 
-subroutine norm1(a,p,nm,S,H,EE)
+subroutine norm1(a,p,nm,S,H,EE,n_bas)
 
-integer a(3),p(3)
-!common S(3,3),H(3,3),EE(3,3,3,3)
-real*8  S(3,3),H(3,3),EE(3,3,3,3)
+integer a(3),p(3),n_bas
+real*8  S(n_bas,n_bas),H(n_bas,n_bas),EE(n_bas,n_bas,n_bas,n_bas)
 real*8 nm
 ! this subroutine computes the overlap <123|456>
 nm=S(a(1),p(1))*S(a(2),p(2))*S(a(3),p(3));
 
 end subroutine norm1
-
-
