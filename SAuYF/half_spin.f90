@@ -1,5 +1,5 @@
 !Authors - James Daniel Whitfield - Dartmouth College - http://physics.dartmouth.edu/people/james-daniel-whitfield
-!        - Sahil Gulania - University of Souther California 
+!        - Sahil Gulania - University of Southern California 
 program half_spin
 !implicit double precision (A-Z)
 integer i,j,k,l,a,b,c,d,ii
@@ -66,7 +66,7 @@ end do
 !end do
 
 !----------------------------------------------------------------------
-! loading the integrals - Overlap , One electrong, two electron 
+! loading the integrals - Overlap , One electron, two electron 
 
 open(unit = 101, file = 'ham_ov.dat', status = 'old', action = 'read')
  do i = 1,3
@@ -360,7 +360,7 @@ integer a(3),p(3)
 !common S(3,3),H(3,3),EE(3,3,3,3)
 real*8  S(3,3),H(3,3),EE(3,3,3,3)
 real*8 nm
-! this subroutine computes the overalp <123|456>
+! this subroutine computes the overlap <123|456>
 nm=S(a(1),p(1))*S(a(2),p(2))*S(a(3),p(3));
 
 end subroutine norm1
