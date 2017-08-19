@@ -1,13 +1,7 @@
-!----------------------------------------------------------------------!
-!Authors - James Daniel Whitfield - Dartmouth College                  !
-!        - http://physics.dartmouth.edu/people/james-daniel-whitfield  !
-!        - Sahil Gulania - University of Southern California            !
-!---------------------------------------------------------------       !
 program half_spin
 implicit none
 integer i,j,k,l,a,b,c,d,ii
 integer n_weyl,n_bas
-integer a1(81),b1(81),c1(81),d1(81)
 integer INFO, LWORK,LWORK_f
 real*8  val
 real*8  Xsymm(3,3)
@@ -16,7 +10,6 @@ integer AllocateStatus
 
 real*8,  dimension(:), allocatable  :: W_f,WORK_f
 real*8,  dimension(:), allocatable  :: W,WORK,e1
-
 real*8,  dimension(:,:), allocatable  :: H_f,Ov, HOv,S,H,S1,X1
 real*8,  dimension(:,:,:,:), allocatable  :: EEOv,EE
 integer, dimension(:,:), allocatable  :: aa,p11,p12
@@ -98,25 +91,16 @@ open(unit = 101, file = 'ham_ov.dat', status = 'old', action = 'read')
 
 
  do i = 1,n_bas
-  read(101,*) Ov(i,1),Ov(i,2),Ov(i,3)
-  write(6,*) Ov(i,1),Ov(i,2),Ov(i,3)
+  read(101,*) Ov(i,:)
+!  write(6,*) Ov(i,:)
  end do
 
  do i = 1,n_bas
-  read(101,*) HOv(i,1),HOv(i,2),HOv(i,3)
-  write(6,*) HOv(i,1),HOv(i,2),HOv(i,3)
+  read(101,*) HOv(i,:)
+!  write(6,*) HOv(i,:)
  end do
  read(101,*) E_nuc
  close(101)
-
-
-! do i = 1,3
-!  write(6,*) Ov(i,1),Ov(i,2),Ov(i,3)
-! end do
-
-! do i = 1,3
-!  write(6,*) HOv(i,1),HOv(i,2),HOv(i,3)
-! end do
 
 
 open(unit = 102, file = '2_ele.dat', status = 'old', action = 'read')
@@ -185,6 +169,9 @@ allocate ( X1(n_bas,n_bas), STAT = AllocateStatus)
 S=matmul(transpose(X1),matmul(S1,X1))
 H=matmul(transpose(X1),matmul(HOv,X1))
 
+!do i =1,n_bas
+! print*,S(i,:)
+!end do
 
 do i=1,n_bas
   do j=1,n_bas
@@ -381,3 +368,5 @@ real*8 nm
 nm=S(a(1),p(1))*S(a(2),p(2))*S(a(3),p(3));
 
 end subroutine norm1
+
+
