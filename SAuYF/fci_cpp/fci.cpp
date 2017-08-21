@@ -27,6 +27,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<iostream>
+#include<fstream>
 #include<assert.h>
 #include<iomanip>
 #include<random>
@@ -66,10 +67,27 @@ main(int argc, char *argv[])
     const auto basis_fname=(argc>1) ? argv[1] : "basis_funcs";
     const auto nuc_fname  =(argc>2) ? argv[2] : "nuc_field";
 
+
+    // ****************************
+    // * Output files             *
+    // ****************************
+    std::fstream fonebody;
+    fonebody.open("ham_ov.dat");
+    fonebody << "Testing blah blah";
+
+
+	    /*
+	     * Format ham_ov.dat-
+	     * number of basis
+	     * Ov matrix
+	     * Core Hamiltonian matrix
+	     * Nuclear Repulsion
+	     */
+
     // ****************************
     // * Parse data files         *
     // ****************************
-	libint2::BasisSet shells = parse_basisfile(basis_fname);
+    libint2::BasisSet shells = parse_basisfile(basis_fname);
 
 
     if(debug)
@@ -81,6 +99,8 @@ main(int argc, char *argv[])
 
     //number of spin orbitals in the basis set
     int M=2*shells.nbf();
+
+
     
     //number of electrons
     int N=-99;
@@ -195,7 +215,7 @@ main(int argc, char *argv[])
     {
         std::cout << "h\n";
         std::cout << h2 << "\n\n";
-        std::cout << "MO Integrals\n";
+        std::cout << "Orthogonalized Integrals\n";
         for(auto m : MOInts)
             std::cout << m << "\n";
     }
@@ -215,6 +235,15 @@ main(int argc, char *argv[])
     std::cout << std::scientific;
     for(int i=0; i<D; i++)
         std::cout << w[i]  << "\n";
+
+    
+    // ****************************
+    // * Close output files       *
+    // ****************************
+
+    fonebody.close();
+
+
 
     return 0;
 }
