@@ -73,7 +73,6 @@ main(int argc, char *argv[])
     // ****************************
     std::fstream fonebody;
     fonebody.open("ham_ov.dat");
-    fonebody << "Testing blah blah";
 
 
 	    /*
@@ -100,7 +99,7 @@ main(int argc, char *argv[])
     //number of spin orbitals in the basis set
     int M=2*shells.nbf();
 
-
+    fonebody << M << "\n";
     
     //number of electrons
     int N=-99;
@@ -137,7 +136,9 @@ main(int argc, char *argv[])
     if(debug)
     {
         std::cout << "S\n" << S << "\n\n";
+        fonebody  << S << "\n";
         std::cout << "h\n" << h << "\n\n";
+        fonebody  << h << "\n";
         std::cout << "AO 2body integrals (chemist's notation)\n";
         for(auto p=0; p!=M/2; p++) //unique integral labels, looping scheme from libint
             for(auto q=0; q<=p; q++)
