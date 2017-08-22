@@ -79,7 +79,7 @@ end do
 !end do
 
 !----------------------------------------------------------------------
-! loading the integrals - Overlap , Core Hamiltinian, Nuclear repulsion
+! loading the integrals - Overlap , Core Hamiltonian, Nuclear repulsion
 !                         two electron integral (input is expected to be in chemist notion)
 
 open(unit = 101, file = 'ham_ov.dat', status = 'old', action = 'read')
@@ -355,7 +355,7 @@ subroutine norm1(a,p,nm,S,H,EE,n_bas)
 integer a(3),p(3),n_bas
 real*8  S(n_bas,n_bas),H(n_bas,n_bas),EE(n_bas,n_bas,n_bas,n_bas)
 real*8 nm
-! this subroutine computes the overalp <123|456>
+! this subroutine computes the overlap <123|456>
 nm=S(a(1),p(1))*S(a(2),p(2))*S(a(3),p(3));
 
 end subroutine norm1
