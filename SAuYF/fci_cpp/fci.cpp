@@ -75,13 +75,22 @@ main(int argc, char *argv[])
     fonebody.open("ham_ov.dat");
 
 
-	    /*
-	     * Format ham_ov.dat-
-	     * number of basis
-	     * Ov matrix
-	     * Core Hamiltonian matrix
-	     * Nuclear Repulsion
-	     */
+   /*
+     Format ham_ov.dat-
+     number of basis
+     Ov matrix
+     Core Hamiltonian matrix
+     Nuclear Repulsion
+    */
+
+    std::fstream ftwobody;
+    ftwobody.open("2_ele.dat");
+    /*
+     Format 2_ele.dat-
+     number of reduced integral
+     i,j,k,l, ee(i,j,k,l)
+    */
+
 
     // ****************************
     // * Parse data files         *
@@ -140,15 +149,18 @@ main(int argc, char *argv[])
         std::cout << "h\n" << h << "\n\n";
         fonebody  << h << "\n";
         std::cout << "AO 2body integrals (chemist's notation)\n";
+        ftwobody  << "AO 2body integrals (chemist's notation)\n";
         for(auto p=0; p!=M/2; p++) //unique integral labels, looping scheme from libint
             for(auto q=0; q<=p; q++)
                 for(auto r=0; r<=p; r++)
                     for(auto s=0; s<= (p==r ? q : r) ; s++)
                         if(std::abs(AOInts[term4(p,q,r,s)]) > 1e-5)
+			{
 				std::cout << term4(p,q,r,s) << ": ["
 					  << p << q << "|" << r << s << "] = " << AOInts[term4(p,q,r,s)] << std::endl;
-                            //printf("%i: [%i%i|%i%i] = %12.10lf\n",
-                             //       term4(p,q,r,s),p,q,r,s,AOInts[term4(p,q,r,s)]);
+
+ 			        ftwobody << p << "," << q << "," << r << "," << s << "," << AOInts[term4(p,q,r,s)] << std::endl;
+			}
     }
 
 
