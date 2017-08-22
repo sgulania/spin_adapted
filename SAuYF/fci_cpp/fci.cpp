@@ -162,7 +162,10 @@ main(int argc, char *argv[])
         std::cout << "h\n" << h << "\n\n";
         fonebody  << h << "\n";
         std::cout << "AO 2body integrals (chemist's notation)\n";
-        ftwobody  << "AO 2body integrals (chemist's notation)\n";
+	
+	//temporary header to be overwritten by the number of integrals
+        ftwobody  << "AO       \n";
+	int nints=0;
         for(auto p=0; p!=M/2; p++) //unique integral labels, looping scheme from libint
             for(auto q=0; q<=p; q++)
                 for(auto r=0; r<=p; r++)
@@ -173,8 +176,14 @@ main(int argc, char *argv[])
 					  << p << q << "|" << r << s << "] = " << AOInts[term4(p,q,r,s)] << std::endl;
 
  			        ftwobody << p << " " << q << " " << r << " " << s << " " << AOInts[term4(p,q,r,s)] << std::endl;
+				nints++;
 			}
+	//go back to write the number of integrals at the top
+        ftwobody.seekp(0);
+	//header
+	ftwobody  << nints;
     }
+
 
 
 
