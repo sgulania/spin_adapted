@@ -91,6 +91,11 @@ main(int argc, char *argv[])
      i,j,k,l, ee(i,j,k,l)
     */
 
+    //increase the printout precision
+    fonebody.precision(10);
+    ftwobody.precision(10);
+    fonebody << std::scientific << std::showpos;
+    ftwobody << std::scientific << std::showpos;
 
     // ****************************
     // * Parse data files         *
