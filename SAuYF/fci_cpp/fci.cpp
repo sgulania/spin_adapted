@@ -27,6 +27,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<iostream>
+#include<fstream>
 #include<assert.h>
 #include<iomanip>
 #include<random>
@@ -66,10 +67,48 @@ main(int argc, char *argv[])
     const auto basis_fname=(argc>1) ? argv[1] : "basis_funcs";
     const auto nuc_fname  =(argc>2) ? argv[2] : "nuc_field";
 
+
+    // ****************************
+    // * Output files             *
+    // ****************************
+    std::fstream fonebody;
+    system("touch ham_ov.dat");
+    system("rm ham_ov.dat");
+    system("touch ham_ov.dat");
+    fonebody.open("ham_ov.dat");
+
+    
+
+
+   /*
+     Format ham_ov.dat-
+     number of basis
+     Ov matrix
+     Core Hamiltonian matrix
+     Nuclear Repulsion
+    */
+
+    std::fstream ftwobody;
+    system("touch 2_ele.dat");
+    system("rm 2_ele.dat");
+    system("touch 2_ele.dat");
+    ftwobody.open("2_ele.dat");
+    /*
+     Format 2_ele.dat-
+     number of reduced integral
+     i,j,k,l, ee(i,j,k,l)
+    */
+
+    //increase the printout precision
+    fonebody.precision(10);
+    ftwobody.precision(10);
+    fonebody << std::scientific << std::showpos;
+    ftwobody << std::scientific;
+
     // ****************************
     // * Parse data files         *
     // ****************************
-	libint2::BasisSet shells = parse_basisfile(basis_fname);
+    libint2::BasisSet shells = parse_basisfile(basis_fname);
 
 
     if(debug)
@@ -81,6 +120,8 @@ main(int argc, char *argv[])
 
     //number of spin orbitals in the basis set
     int M=2*shells.nbf();
+
+    fonebody << M << "\n";
     
     //number of electrons
     int N=-99;
@@ -117,18 +158,32 @@ main(int argc, char *argv[])
     if(debug)
     {
         std::cout << "S\n" << S << "\n\n";
+        fonebody  << S << "\n";
         std::cout << "h\n" << h << "\n\n";
+        fonebody  << h << "\n";
         std::cout << "AO 2body integrals (chemist's notation)\n";
+	
+	//temporary header to be overwritten by the number of integrals
+        ftwobody  << "AO       \n";
+	int nints=0;
         for(auto p=0; p!=M/2; p++) //unique integral labels, looping scheme from libint
             for(auto q=0; q<=p; q++)
                 for(auto r=0; r<=p; r++)
                     for(auto s=0; s<= (p==r ? q : r) ; s++)
                         if(std::abs(AOInts[term4(p,q,r,s)]) > 1e-5)
+			{
 				std::cout << term4(p,q,r,s) << ": ["
 					  << p << q << "|" << r << s << "] = " << AOInts[term4(p,q,r,s)] << std::endl;
-                            //printf("%i: [%i%i|%i%i] = %12.10lf\n",
-                             //       term4(p,q,r,s),p,q,r,s,AOInts[term4(p,q,r,s)]);
+
+ 			        ftwobody << p << " " << q << " " << r << " " << s << " " << AOInts[term4(p,q,r,s)] << std::endl;
+				nints++;
+			}
+	//go back to write the number of integrals at the top
+        ftwobody.seekp(0);
+	//header
+	ftwobody  << nints;
     }
+
 
 
 
@@ -195,7 +250,7 @@ main(int argc, char *argv[])
     {
         std::cout << "h\n";
         std::cout << h2 << "\n\n";
-        std::cout << "MO Integrals\n";
+        std::cout << "Orthogonalized Integrals\n";
         for(auto m : MOInts)
             std::cout << m << "\n";
     }
@@ -215,6 +270,15 @@ main(int argc, char *argv[])
     std::cout << std::scientific;
     for(int i=0; i<D; i++)
         std::cout << w[i]  << "\n";
+
+    
+    // ****************************
+    // * Close output files       *
+    // ****************************
+
+    fonebody.close();
+
+
 
     return 0;
 }
