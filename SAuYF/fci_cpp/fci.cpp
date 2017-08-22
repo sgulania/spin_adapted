@@ -72,7 +72,12 @@ main(int argc, char *argv[])
     // * Output files             *
     // ****************************
     std::fstream fonebody;
+    system("touch ham_ov.dat");
+    system("rm ham_ov.dat");
+    system("touch ham_ov.dat");
     fonebody.open("ham_ov.dat");
+
+    
 
 
    /*
@@ -84,6 +89,9 @@ main(int argc, char *argv[])
     */
 
     std::fstream ftwobody;
+    system("touch 2_ele.dat");
+    system("rm 2_ele.dat");
+    system("touch 2_ele.dat");
     ftwobody.open("2_ele.dat");
     /*
      Format 2_ele.dat-
@@ -95,7 +103,7 @@ main(int argc, char *argv[])
     fonebody.precision(10);
     ftwobody.precision(10);
     fonebody << std::scientific << std::showpos;
-    ftwobody << std::scientific << std::showpos;
+    ftwobody << std::scientific;
 
     // ****************************
     // * Parse data files         *
@@ -164,7 +172,7 @@ main(int argc, char *argv[])
 				std::cout << term4(p,q,r,s) << ": ["
 					  << p << q << "|" << r << s << "] = " << AOInts[term4(p,q,r,s)] << std::endl;
 
- 			        ftwobody << p << "," << q << "," << r << "," << s << "," << AOInts[term4(p,q,r,s)] << std::endl;
+ 			        ftwobody << p << " " << q << " " << r << " " << s << " " << AOInts[term4(p,q,r,s)] << std::endl;
 			}
     }
 
