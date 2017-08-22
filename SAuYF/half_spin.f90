@@ -87,7 +87,7 @@ end do
 
 !----------------------------------------------------------------------
 ! loading the integrals - Overlap , Core Hamiltonian, Nuclear repulsion
-!                         two electron integral (physicist notion)
+!                         two electron integral (input is expected to be in chemist notion)
 
 open(unit = 101, file = 'ham_ov.dat', status = 'old', action = 'read')
  read(101,*) n_bas
