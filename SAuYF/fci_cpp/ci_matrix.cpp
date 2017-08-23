@@ -165,7 +165,7 @@ SlaterDiffs(const vector<int>& detRef, const vector<int>& detK,
                 //flip phase
                 phase*=-1;
         }
-    }
+    }	
     
     //no need to go through K if all are orbs the same
     if(n_ex_lvl==0)
@@ -213,15 +213,37 @@ SlaterDiffs(const vector<int>& detRef, const vector<int>& detK,
 
         }
 
-    }
+    }	
     
  
     printf("\n\nSomething went wrong in SlaterDiffs, logic broken\n");
     throw;
     return -9;
 
-}
+}	
 
+int
+PrimDiffs(const vector<int>& primRef, const vector<int>& primK,
+	  vector<int>& perm,
+{
+  //sort reference vector, save permutation P_r
+  //sort K vector, save permutation P_k
+  //find differences same as before
+    // %%%%%%%% find first orb in reference not in K %%%%%%%%
+       //loop through occ ref orbs O(N) cost
+         //check against orbs of K O(N)
+	 //if not found
+	   //increase excitation level
+	   //include permutation of occ orbital to front in Pr (same info as orb_index marking it)
+    // if all the same return P_r, P_k
+
+    // %%%%%%%% find orb in K not in reference %%%%%%%%
+       //loop through occ K orbs O(N) cost
+         //check against orbs of ref, O(N)
+	 //if not found
+	    //include permutation of virt orb to front in Pk
+            //do we need to find another? if yes, continue else return: Pr, Pk, virt_indicies, occ_indicies
+}
 double*
 ci_matrix_packed_upper(int M, int N, std::vector<double> MOInts, Matrix h2)
 {
