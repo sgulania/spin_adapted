@@ -34,6 +34,7 @@
 #include<iostream>
 #include<string>
 #include<vector>
+#include<algorithm>
 #include<libint2.hpp>
 #include"ci_matrix.h"
 #include"parser.h"
@@ -223,10 +224,33 @@ SlaterDiffs(const vector<int>& detRef, const vector<int>& detK,
 }	
 
 int
-PrimDiffs(const vector<int>& primRef, const vector<int>& primK,
-	  vector<int>& perm,
+PrimDiffs(const std::vector<int>& primRef, const std::vector<int>& primK,
+	 std::vector<int>& perm,
 {
-  //sort reference vector, save permutation P_r
+
+	int N = primRef.size();
+
+	//sort reference vector, save permutation P_r
+	std::vector<int> Pr(M, 0);
+
+	for (int i = 0 ; i != index.size() ; i++) 
+	    Pr[i] = i;
+
+    	sort(Pr.begin(),Pr.end(),[&](const int& a, const int& b)
+  			                   {return (primRef[a] < primRef[b]);});
+
+    	for (int i = 0 ; i != Pr.size() ; i++) 
+	{
+	   std::cout << Pr[i] << std::endl;
+	}
+
+	std::cout << "input ref: " << primRef << std::endl;
+
+	std::cout << "sorted ref: ";
+	for(auto i=0; i!=Pr.size(); i++)
+		std::cout << Pr[i] << " ";
+
+	std::cout << std::endl;
   //sort K vector, save permutation P_k
   //find differences same as before
     // %%%%%%%% find first orb in reference not in K %%%%%%%%
