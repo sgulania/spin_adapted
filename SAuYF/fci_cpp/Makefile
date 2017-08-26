@@ -1,7 +1,6 @@
 #Make file for fci code
 # JDWhitfield 2017
 # Dartmouth College
-#
 
 CXX= g++
 #PROFILER_FLAG=-pg 
@@ -11,9 +10,9 @@ OPT_FLAG=  -O3
 CXXFLAGS= -std=c++11 -w
 
 
-INCLUDESLibint	=-I/usr/local/include -I/usr/local/include/libint2 -I/opt/local/include
+INCLUDESLibint	=-I/usr/local/include -I/usr/local/include/eigen -I/usr/local/include/libint2 -I/opt/local/include
 LIBSLibint      =-L/usr/local/lib -lint2
-LIBSLapack	=-L/opt/local/lib/lapack -llapack  -lblas -llapacke 
+LIBSLapack	=-L/opt/local/lib/lapack -llapack  -lblas -llapacke  
 LIBS	        =-lm -lgmp -lgmpxx $(LIBSLapack) $(LIBSLibint)
 INCLUDES        =$(INCLUDESLibint) 
 
@@ -22,8 +21,8 @@ all: fci
 minimal.o: minimal.cpp ci_matrix.cpp
 	$(CXX) minimal.cpp $(CXXFLAGS) $(INCLUDESLibint) $(INCLUDESEig) -c -o minimal.o
 
-minimal:minimal.o ci_matrix.o parser.o libint_interface.o
-	$(CXX) $(CXXFLAGS) minimal.o libint_interface.o ci_matrix.o parser.o $(LIBS) -o minimal
+minimal:minimal.o 
+	$(CXX) $(CXXFLAGS) minimal.o -o minimal
 
 fci:fci.o ci_matrix.o parser.o libint_interface.o
 	$(CXX) $(CXXFLAGS) fci.o libint_interface.o ci_matrix.o parser.o $(LIBS) -o fci
