@@ -137,7 +137,5 @@ double_excitation(const vector<int> detL,  const vector<int> detR,
 int
 SlaterDiffs(const vector<int>&, const vector<int>&, vector<int>& , vector<int>& , int&);
 
-int
-PrimDiffs(const vector<int>&, const vector<int>&,vector<int>&,vector<int>&);
 
 #endif
