@@ -31,7 +31,7 @@ main()
 
 	vector<int> Pr;
 	vector<int> Pk;
-	//PrimDiffs(left,right,occ,virt,Pr,Pk);
+	PrimDiffs(left,right,occ,virt,Pr,Pk);
 
 	vector<int> Peye {0,1,2};
 	vector<int> P12  {1,0,2};
@@ -39,11 +39,15 @@ main()
 
 	vector<int> ans;
 
+	/*
 	perm_multiply(P12,P23,ans);
 
 	for(auto i: ans)
 		std::cout << " " << i; 
 	std::cout << endl;
+	*/
+
+
 
 	return 0;
 }
@@ -68,29 +72,6 @@ perm_multiply(const std::vector<int>& P1, const std::vector<int>& P2,
 }
 
 int
-perm_multiply(const std::vector<int>& Pl, const std::vector<int>& P2,  std::vector<int>& result)
-{
-int
-perm_multiply(const std::vector<int>& Pl, const std::vector<int>& p2,  std::vector<int>& result)
-   int N=P1.size();
-   if(P1.size()<P2.size()) // then swap and replace N accordingly
-   {
-	   result=P1;
-	   P1=P2;
-	   P2=result;
-   }
-   else
-   {
-	   result=P2;
-   }
-
-   for(int j=0; j<P2.size(); j++)
-	   result=P2[P1[j]];
-
-   return 0;
-}
-
-int
 PrimDiffs(const std::vector<int>& primRef, const std::vector<int>& primK,
           std::vector<int>&       virt  , std::vector<int>&        occ, 
 	  std::vector<int>&         Pr  , std::vector<int>&         Pk ) 
@@ -106,7 +87,7 @@ PrimDiffs(const std::vector<int>& primRef, const std::vector<int>& primK,
     int     n_ex_lvl=0;
     int     left_occupancy=0;
     int N = primRef.size();
-    bool debug=true;
+    bool debug=false;
     bool found;
 
 
@@ -190,8 +171,21 @@ PrimDiffs(const std::vector<int>& primRef, const std::vector<int>& primK,
 	   //include permutation of occ orbital to front in Pr (same info as orb_index marking it)
 
 
-	    std::vector<int> v(occ_orb_idx) ; // vector with 100 ints.
-	    std::iota (std::begin(v), std::end(v), 0); // Fill with 0, 1, ..., 99.
+
+	    std::vector<int> v(occ_orb_idx) ; 
+	    v[0]=occ_orb_idx-1;
+	    for(int j=1; j<occ_orb_idx; j++)
+	    {
+		    v[j]=j-1;
+	    }
+
+
+	    std::cout << "cyclic permutation\n";
+
+	    for(int j=0; j<occ_orb_idx; j++)
+		    std::cout << v[j] << " ";
+	    std::cout << std::endl;
+
            /*******************************************************************/
 
             //L_occ1=left_occupancy=orb_index
