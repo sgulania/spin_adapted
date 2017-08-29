@@ -13,6 +13,11 @@ int
 PrimDiffs(const std::vector<int>& primRef, const std::vector<int>& primK,
           std::vector<int>&       virt  , std::vector<int>&        occ, 
 	  std::vector<int>&         Pr  , std::vector<int>&         Pk ) ;
+
+int 
+perm_multiply(const std::vector<int>& P1, const std::vector<int>& P2,          
+              std::vector<int>&      result);
+
 int 
 main()
 {
@@ -22,11 +27,42 @@ main()
 	vector<int> occ;
 	vector<int> virt;
 	vector<int> left  {1,5,3,7,2,2,6};
-	vector<int> right {1,9,10,7,7,2,6};
+	vector<int> right {1,9,5,4,7,2,6};
 
 	vector<int> Pr;
 	vector<int> Pk;
-	PrimDiffs(left,right,occ,virt,Pr,Pk);
+	//PrimDiffs(left,right,occ,virt,Pr,Pk);
+
+	vector<int> Peye {0,1,2};
+	vector<int> P12  {1,0,2};
+	vector<int> P23  {0,2,1};
+
+	vector<int> ans;
+
+	perm_multiply(P12,P23,ans);
+
+	for(auto i: ans)
+		std::cout << " " << i; 
+	std::cout << endl;
+
+	return 0;
+}
+
+int 
+perm_multiply(const std::vector<int>& P1, const std::vector<int>& P2,          
+              std::vector<int>&      result)
+{
+	if(P1.size()!=P2.size())
+	{
+		std::cout << "Error in perm_multiply, perms must be same size" << std::endl;
+		return 1;
+	}
+
+	result.clear();
+	result.resize(P1.size());
+
+	for(int j=0; j<P1.size(); j++)
+		result[j]=P1[P2[j]];
 
 	return 0;
 }
@@ -51,60 +87,55 @@ PrimDiffs(const std::vector<int>& primRef, const std::vector<int>& primK,
     bool found;
 
 
-	//sort reference vector, save permutation P_r
-
+    //sort reference vector, save permutation P_r
     Pr.resize(N,0);
 
     for (int i = 0 ; i != Pr.size() ; i++) 
 	    Pr[i] = i;
 
-   sort(Pr.begin(),Pr.end(),[&](const int& a, const int& b)
+    sort(Pr.begin(),Pr.end(),[&](const int& a, const int& b)
   			                   {return (primRef[a] < primRef[b]);});
 
-
-        //sort K vector, save permutation P_k
-
+    //sort K vector, save permutation P_k
     Pk.resize(N,0);
-	for (int i = 0 ; i != Pk.size() ; i++) 
+    for (int i = 0 ; i != Pk.size() ; i++) 
 	    Pk[i] = i;
 
-    	sort(Pk.begin(),Pk.end(),[&](const int& a, const int& b)
+    sort(Pk.begin(),Pk.end(),[&](const int& a, const int& b)
   			                   {return (primK[a] < primK[b]);});
 
-	//DEBUGGING/TESTING
-	if(debug)
+    //DEBUGGING/TESTING
+    if(debug)
+    {
+	for (int i = 0 ; i != Pr.size() ; i++) 
 	{
-		for (int i = 0 ; i != Pr.size() ; i++) 
-		{
-		   std::cout << Pr[i] << std::endl;
-		}
-
-		std::cout << "input ref: " ;
-		for(int i=0; i!=primRef.size(); i++)
-		   std::cout << primRef[i] << " ";
-		std::cout << std::endl;
-		std::cout << "sorted ref: ";
-		for(int i=0; i!=Pr.size(); i++)
-			std::cout << primRef[Pr[i]] << " ";
-
-		std::cout << std::endl;
-
-      	        for (int i = 0 ; i != Pk.size() ; i++) 
-		{
-		   std::cout << Pk[i] << std::endl;
-		}
-
-		std::cout << "input K: " ;
-		for(int i=0; i!=primK.size(); i++)
-		   std::cout << primK[i] << " ";
-		std::cout << std::endl;
-		std::cout << "sorted K: ";
-		for(int i=0; i!=Pk.size(); i++)
-			std::cout << primK[Pk[i]] << " ";
-
-		std::cout << std::endl;
-
+	   std::cout << Pr[i] << std::endl;
 	}
+
+	std::cout << "input ref: " ;
+	for(int i=0; i!=primRef.size(); i++)
+	   std::cout << primRef[i] << " ";
+	std::cout << std::endl;
+	std::cout << "sorted ref: ";
+	for(int i=0; i!=Pr.size(); i++)
+	std::cout << primRef[Pr[i]] << " ";
+
+	std::cout << std::endl;
+
+        for (int i = 0 ; i != Pk.size() ; i++) 
+	   std::cout << Pk[i] << std::endl;
+
+	std::cout << "input K: " ;
+	for(int i=0; i!=primK.size(); i++)
+	   std::cout << primK[i] << " ";
+	std::cout << std::endl;
+	std::cout << "sorted K: ";
+	for(int i=0; i!=Pk.size(); i++)
+		std::cout << primK[Pk[i]] << " ";
+
+	std::cout << std::endl;
+
+    }
 
 
 
@@ -133,6 +164,13 @@ PrimDiffs(const std::vector<int>& primRef, const std::vector<int>& primK,
             //increase excitation level
             n_ex_lvl++;
 
+	   //include permutation of occ orbital to front in Pr (same info as orb_index marking it)
+
+
+	    std::vector<int> v(occ_orb_idx) ; // vector with 100 ints.
+	    std::iota (std::begin(v), std::end(v), 0); // Fill with 0, 1, ..., 99.
+           /*******************************************************************/
+
             //L_occ1=left_occupancy=orb_index
             left_occupancy=occ_orb_idx;
             
@@ -140,6 +178,7 @@ PrimDiffs(const std::vector<int>& primRef, const std::vector<int>& primK,
             //%   L_occ2=left_occupancy=orb_index - 1 // extra sub for occ1
             if(n_ex_lvl==2)
                 left_occupancy=occ_orb_idx-1;
+           /*******************************************************************/
 
 
 
@@ -158,7 +197,6 @@ PrimDiffs(const std::vector<int>& primRef, const std::vector<int>& primK,
          //check against orbs of K O(N)
 	 //if not found
 	   //increase excitation level
-	   //include permutation of occ orbital to front in Pr (same info as orb_index marking it)
 	   
     // if all the same return P_r, P_k
     //no need to go through K if all are orbs the same
@@ -192,8 +230,8 @@ PrimDiffs(const std::vector<int>& primRef, const std::vector<int>& primK,
             left_occupancy=K_orb_idx - (virt.size()-1);
 
             //accumulate phase
-            if(left_occupancy%2)
-                phase*=-1;
+            //if(left_occupancy%2)
+            //    phase*=-1;
 
             //stop looking if we only need one
             if(n_ex_lvl==1)
