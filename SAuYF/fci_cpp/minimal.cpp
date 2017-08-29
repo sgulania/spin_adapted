@@ -13,6 +13,10 @@ int
 PrimDiffs(const std::vector<int>& primRef, const std::vector<int>& primK,
           std::vector<int>&       virt  , std::vector<int>&        occ, 
 	  std::vector<int>&         Pr  , std::vector<int>&         Pk ) ;
+
+int
+perm_multiply(const std::vector<int>& Pl, const std::vector<int>& P2,  std::vector<int>& result);
+
 int 
 main()
 {
@@ -29,6 +33,29 @@ main()
 	PrimDiffs(left,right,occ,virt,Pr,Pk);
 
 	return 0;
+}
+
+int
+perm_multiply(const std::vector<int>& Pl, const std::vector<int>& P2,  std::vector<int>& result)
+{
+int
+perm_multiply(const std::vector<int>& Pl, const std::vector<int>& p2,  std::vector<int>& result)
+   int N=P1.size();
+   if(P1.size()<P2.size()) // then swap and replace N accordingly
+   {
+	   result=P1;
+	   P1=P2;
+	   P2=result;
+   }
+   else
+   {
+	   result=P2;
+   }
+
+   for(int j=0; j<P2.size(); j++)
+	   result=P2[P1[j]];
+
+   return 0;
 }
 
 int
@@ -219,3 +246,6 @@ PrimDiffs(const std::vector<int>& primRef, const std::vector<int>& primK,
 	    //include permutation of virt orb to front in Pk
             //do we need to find another? if yes, continue else return: Pr, Pk, virt_indicies, occ_indicies
 }
+
+
+
