@@ -10,7 +10,7 @@
 
 
 int
-PrimDiffs(const std::vector<int>& primRef, const std::vector<int>& primK,
+PrimDiffs(int M, const std::vector<int>& primRef, const std::vector<int>& primK,
           std::vector<int>&       virt  , std::vector<int>&        occ, 
 	  std::vector<int>&         Pr  , std::vector<int>&         Pk ) ;
 
@@ -27,11 +27,11 @@ main()
 	vector<int> occ;
 	vector<int> virt;
 	vector<int> left  {1,5,3,7,2,2,6};
-	vector<int> right {1,9,5,4,7,2,6};
+	vector<int> right {1,9,5,4,7,3,6};
 
 	vector<int> Pr;
 	vector<int> Pk;
-	PrimDiffs(left,right,occ,virt,Pr,Pk);
+	PrimDiffs(10,left,right,occ,virt,Pr,Pk);
 
 	vector<int> Peye {0,1,2};
 	vector<int> P12  {1,0,2};
@@ -90,14 +90,14 @@ PrimDiffs(int M, const std::vector<int>& primRef, const std::vector<int>& primK,
     bool debug=true;
     bool found;
 
-    vector<int> unsortedRef;
+    std::vector<int> unsortedRef;
     unsortedRef.resize(M,0); // resize and fill with val = 0
 
     //put occupied orbitals into unsorted vector
     for(int j=0; j<N; j++)
 	    unsortedRef[primRef[j]]++;
 
-    vector<int> unsortedK;
+    std::vector<int> unsortedK;
     unsortedK.resize(M,0);
 
     //put virtual orbitals into unsorted vector
@@ -107,13 +107,11 @@ PrimDiffs(int M, const std::vector<int>& primRef, const std::vector<int>& primK,
 
 
     //these are the orbitals that are empty in both
-    vector<int> empty;
+    std::vector<int> empty;
     //these are the orbitals that are occupied in both
-    vector<int> filled;
+    std::vector<int> filled;
 
-    //these are the orbitals whose occupancies change between the two determinants
-    vector<int> occ;
-    vector<int> virt;
+    //arrays occ and virt are the orbitals whose occupancies have changed
     
     for(int j=0; j<M; j++)
     {
@@ -184,9 +182,9 @@ PrimDiffs(int M, const std::vector<int>& primRef, const std::vector<int>& primK,
 						   {
 						       //sort marked elements to one end
 						       if(primRef[a]==occ[j])
-							  return 1;
+							  return true;
 						       if(primRef[b]==occ[j])
-							  return 0;
+							  return false;
 						   }
 					   return (primRef[a] < primRef[b]);
 					   });
@@ -201,9 +199,9 @@ PrimDiffs(int M, const std::vector<int>& primRef, const std::vector<int>& primK,
 						   for(int j=0;j<virt.size();j++)
 						   {
 						       if(primK[a]==virt[j])
-							  return 1;
+							  return true;
 						       if(primK[b]==virt[j])
-							  return 0;
+							  return false;
 						   }
 						   return (primK[a] < primK[b]);
 					   });
@@ -241,7 +239,7 @@ PrimDiffs(int M, const std::vector<int>& primRef, const std::vector<int>& primK,
 
     }
 
-
+    return occ.size(); // this is the excitation level
 
     // new logic
     //   virtuals
