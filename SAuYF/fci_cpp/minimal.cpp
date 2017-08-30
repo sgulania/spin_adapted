@@ -71,10 +71,10 @@ perm_multiply(const std::vector<int>& P1, const std::vector<int>& P2,
 	return 0;
 }
 
-int
-PrimDiffs(const std::vector<int>& primRef, const std::vector<int>& primK,
+int // return excitation level
+PrimDiffs(int M, const std::vector<int>& primRef, const std::vector<int>& primK,
           std::vector<int>&       virt  , std::vector<int>&        occ, 
-	  std::vector<int>&         Pr  , std::vector<int>&         Pk ) 
+	  std::vector<int>&         Pr  , std::vector<int>&         Pk) 
 {
 
 
@@ -87,8 +87,89 @@ PrimDiffs(const std::vector<int>& primRef, const std::vector<int>& primK,
     int     n_ex_lvl=0;
     int     left_occupancy=0;
     int N = primRef.size();
-    bool debug=false;
+    bool debug=true;
     bool found;
+
+    vector<int> unsortedRef;
+    unsortedRef.resize(M,0); // resize and fill with val = 0
+
+    //put occupied orbitals into unsorted vector
+    for(int j=0; j<N; j++)
+	    unsortedRef[primRef[j]]++;
+
+    vector<int> unsortedK;
+    unsortedK.resize(M,0);
+
+    //put virtual orbitals into unsorted vector
+    for(int j=0; j<N; j++)
+	    unsortedK[primK[j]]++;
+
+
+
+    //these are the orbitals that are empty in both
+    vector<int> empty;
+    //these are the orbitals that are occupied in both
+    vector<int> filled;
+
+    //these are the orbitals whose occupancies change between the two determinants
+    vector<int> occ;
+    vector<int> virt;
+    
+    for(int j=0; j<M; j++)
+    {
+	    if(unsortedK[j]==unsortedRef[j]) //either filled or empty in both
+	    {
+		    if(unsortedK[j])
+			    filled.push_back(j);
+		    else
+			    empty.push_back(j);
+		    continue;
+	    }
+
+	    //at this point the occupancies must differ
+	    auto diff=unsortedRef[j]-unsortedK[j];
+
+
+	    switch(diff)
+	    {
+		    case -2:
+			virt.push_back(j);
+		    case -1:
+		    	virt.push_back(j);
+			break;
+		    case 2:
+			occ.push_back(j);
+		    case 1:
+		    	occ.push_back(j);
+			break;
+		    case 0:
+			    std::cerr << "broken logic in PrimDiffs\n"; 
+	    }
+
+    }
+
+
+    if(debug)
+    {
+	    std::cout << "empty:";
+            for(auto i : empty) std::cout << i << " ";
+	    std::cout << "\n";
+
+	    std::cout << "filled:";
+            for(auto i : filled) std::cout << i << " ";
+	    std::cout << "\n";
+
+	    std::cout << "virt:";
+            for(auto i : virt) std::cout << i << " ";
+	    std::cout << "\n";
+
+	    std::cout << "occ:";
+            for(auto i : occ) std::cout << i << " ";
+	    std::cout << "\n";
+    }
+
+    if(occ.size()>2) // no need to continue as the matrix element is zero
+	return 3;
 
 
     //sort reference vector, save permutation P_r
@@ -98,7 +179,17 @@ PrimDiffs(const std::vector<int>& primRef, const std::vector<int>& primK,
 	    Pr[i] = i;
 
     sort(Pr.begin(),Pr.end(),[&](const int& a, const int& b)
-  			                   {return (primRef[a] < primRef[b]);});
+  			                   {
+						   for(int j=0;j<occ.size();j++)
+						   {
+						       //sort marked elements to one end
+						       if(primRef[a]==occ[j])
+							  return 1;
+						       if(primRef[b]==occ[j])
+							  return 0;
+						   }
+					   return (primRef[a] < primRef[b]);
+					   });
 
     //sort K vector, save permutation P_k
     Pk.resize(N,0);
@@ -106,7 +197,16 @@ PrimDiffs(const std::vector<int>& primRef, const std::vector<int>& primK,
 	    Pk[i] = i;
 
     sort(Pk.begin(),Pk.end(),[&](const int& a, const int& b)
-  			                   {return (primK[a] < primK[b]);});
+  			                   {
+						   for(int j=0;j<virt.size();j++)
+						   {
+						       if(primK[a]==virt[j])
+							  return 1;
+						       if(primK[b]==virt[j])
+							  return 0;
+						   }
+						   return (primK[a] < primK[b]);
+					   });
 
     //DEBUGGING/TESTING
     if(debug)
@@ -143,6 +243,11 @@ PrimDiffs(const std::vector<int>& primRef, const std::vector<int>& primK,
 
 
 
+    // new logic
+    //   virtuals
+    //   occ
+    //   loop over occ orbs in ref
+    //      look for a partner in primK, pop it off the list of virtuals
 
 
     // %%%%%%%% find first orb in reference not in K %%%%%%%%
