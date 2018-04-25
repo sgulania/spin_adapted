@@ -1,4 +1,4 @@
-Number		3
-Spin			2
-Number			3
-Nuclear 	0
+Number_of_electron		3
+Spin_degeneracy			2
+Number_of_basis			3
+Nuclear_repulsion	 	0
