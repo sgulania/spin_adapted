@@ -80,13 +80,13 @@ end do
 j = list_p11(non_deg+1)
 do i=non_deg+1,n_weyl
 j=j+1
-cof_p11(j) =  3.d0/2.d0; p11(j,1)= aa(i,3);p11(j,2)= aa(i,2);p11(j,3)=aa(i,1)
+cof_p11(j) =  sqrt(3.d0)/2.d0; p11(j,1)= aa(i,3);p11(j,2)= aa(i,2);p11(j,3)=aa(i,1)
 j=j+1
-cof_p11(j) = -3.d0/2.d0; p11(j,1)= aa(i,1);p11(j,2)= aa(i,3);p11(j,3)=aa(i,2)
+cof_p11(j) = -sqrt(3.d0)/2.d0; p11(j,1)= aa(i,1);p11(j,2)= aa(i,3);p11(j,3)=aa(i,2)
 j=j+1
-cof_p11(j) =  3.d0/2.d0; p11(j,1)= aa(i,3);p11(j,2)= aa(i,1);p11(j,3)=aa(i,2)
+cof_p11(j) =  sqrt(3.d0)/2.d0; p11(j,1)= aa(i,3);p11(j,2)= aa(i,1);p11(j,3)=aa(i,2)
 j=j+1
-cof_p11(j) = -3.d0/2.d0; p11(j,1)= aa(i,2);p11(j,2)= aa(i,3);p11(j,3)=aa(i,1)
+cof_p11(j) = -sqrt(3.d0)/2.d0; p11(j,1)= aa(i,2);p11(j,2)= aa(i,3);p11(j,3)=aa(i,1)
 list_p11(i+1) =j
 end do
 
@@ -100,17 +100,17 @@ end do
 j = list_p21(non_deg+1)
 do i=non_deg+1,n_weyl
 j=j+1
-cof_p21(j) = sqrt(3.d0); p21(j,1)= aa(i,1);p21(j,2)= aa(i,2);p21(j,3)=aa(i,3)
+cof_p21(j) = 1.d0; p21(j,1)= aa(i,1);p21(j,2)= aa(i,2);p21(j,3)=aa(i,3)
 j=j+1
-cof_p21(j) = sqrt(3.d0); p21(j,1)= aa(i,2);p21(j,2)= aa(i,1);p21(j,3)=aa(i,3)
+cof_p21(j) = 1.d0; p21(j,1)= aa(i,2);p21(j,2)= aa(i,1);p21(j,3)=aa(i,3)
 j=j+1
-cof_p21(j) =-sqrt(3.d0)/2.d0; p21(j,1)= aa(i,3);p21(j,2)= aa(i,2);p21(j,3)=aa(i,1)
+cof_p21(j) =-1.d0/2.d0; p21(j,1)= aa(i,3);p21(j,2)= aa(i,2);p21(j,3)=aa(i,1)
 j=j+1
-cof_p21(j) =-sqrt(3.d0)/2.d0; p21(j,1)= aa(i,1);p21(j,2)= aa(i,3);p21(j,3)=aa(i,2)
+cof_p21(j) =-1.d0/2.d0; p21(j,1)= aa(i,1);p21(j,2)= aa(i,3);p21(j,3)=aa(i,2)
 j=j+1
-cof_p21(j) =-sqrt(3.d0)/2.d0; p21(j,1)= aa(i,3);p21(j,2)= aa(i,1);p21(j,3)=aa(i,2)
+cof_p21(j) =-1.d0/2.d0; p21(j,1)= aa(i,3);p21(j,2)= aa(i,1);p21(j,3)=aa(i,2)
 j=j+1
-cof_p21(j) =-sqrt(3.d0)/2.d0; p21(j,1)= aa(i,2);p21(j,2)= aa(i,3);p21(j,3)=aa(i,1)
+cof_p21(j) =-1.d0/2.d0; p21(j,1)= aa(i,2);p21(j,2)= aa(i,3);p21(j,3)=aa(i,1)
 list_p21(i+1) =j
 end do
 
