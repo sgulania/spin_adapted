@@ -15,6 +15,7 @@ write(*,*) "No. of basis"
 read(*,*) ba
 
 ! writing in output file fort.22
+open (unit = 22, file = "standard_young_frames.dat")
 write(22,*) "Number of electron = ", el
 
 write(22,*) "Spin multiplicity of the system = ", sp

@@ -1,3 +1,6 @@
+!ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+!Subroutine for constructing standard young tableau 
+!ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 subroutine young_frame(u,v)
 implicit none
 
@@ -26,6 +29,9 @@ integer*16  tabl(15)
 ! hka = hooklength of first row
 ! hkb = hooklength of second row
 ! f_lam = no. of standard young tabulae
+
+
+open (unit = 22, file = "standard_young_frames.dat")
 
 print*,"u and v", u,v
 do i = 1,u
@@ -86,7 +92,7 @@ f_lam = Factorial(u+v)/(h1*h2)
 
 print*,"Fatcorial of ", u+v,"=", Factorial (u+v)
 print*, "No. of standard yound tabulae = ", f_lam
-write(22,*), "No. of standard yound tabulae = ", f_lam 
+write(22,*) "No. of standard yound tabulae = ", f_lam 
 
 end if 
 
@@ -98,7 +104,7 @@ if (u+v.gt.20) then
 f_lam = tabl(u+v-20)/(h1*h2)
 print*,"Fatcorial of ", u+v,"=", tabl(u+v-20)
 print*, "No. of standard yound tabulae = ", f_lam
-write(22,*), "No. of standard yound tabulae = ", f_lam
+write(22,*) "No. of standard yound tabulae = ", f_lam
 end if
 
 !allocate (young(f_lam,u+v))
@@ -108,12 +114,12 @@ allocate ( young(f_lam,u+v), STAT = AllocateStatus)
 
 ! generating all the standard young tabulae
 
-write(22,*) "Standard Young Frame = 1"
+!write(22,*) "Standard Young Frame = 1"
 
-write(22,*) a
-write(22,*) b
+!write(22,*) a
+!write(22,*) b
 
-write(22,*) " "
+!write(22,*) " "
 
 young(1,1:size(a)) = a(:)
 young(1,size(a)+1:size(a)+size(b))=b(:)
@@ -207,12 +213,12 @@ do i=1,v1
  young(m,1:size(a1)) = a1(:)
  young(m,size(a1)+1:size(a1)+size(b1))=b1(:)
 !print*,young(m,:)
- write(22,*) "Standard Young Frame = ",m
+! write(22,*) "Standard Young Frame = ",m
 
- write(22,*) a1
- write(22,*) b1
+! write(22,*) a1
+! write(22,*) b1
 
- write(22,*) " "
+! write(22,*) " "
  m=m+1
  end if
 
@@ -230,7 +236,20 @@ do i=1,v1
 !print*, young(1,:) ,"loop",i
 end do
 
-stop
+!stop
+
+call rearrange_young(young,u,v,f_lam)
+
+
+do i =1,f_lam
+ write(22,*) "Standard Young Frame = ",i                                                  
+                                                                                          
+ write(22,*) young(i,1:u)
+ write(22,*) young(i,u+1:u+v)                                                             
+                                                                                          
+ write(22,*) " "  
+enddo
+
 print*, "Satndard Young Tabulae constructed, checking degenracy"
 !print*, young(1,:)
 
@@ -258,8 +277,13 @@ flag = 0
 end do
 
 print*,"No. of degeneracy = ", flag2
-deallocate (young)
 
+
+!print*,"inside_young",young(1,:)
+call irrep_generate(young,u,v,f_lam)
+!deallocate (young)
+
+close(22)
 
 !-------------------------------------------------------------------
 
@@ -358,12 +382,12 @@ recursive subroutine gen (m,n_max,m_max,comb,l)
     if (m > m_max) then
      if (l.eq.1) then
       write (23,*) comb
-      write(223,*) comb
+      !write(223,*) comb
      end if 
       
      if (l.eq.2) then
       write(24,*) comb
-      write(224,*) comb
+      !write(224,*) comb
      end if 
     else
       do n = 1, n_max

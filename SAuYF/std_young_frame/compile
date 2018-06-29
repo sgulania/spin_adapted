@@ -1,0 +1,1 @@
+gfortran generate.f90 young_frame.f90 irrep_generate.f90 rearrange_young.f90 distance.f90 action_perm_young.f90 -o std_young 
