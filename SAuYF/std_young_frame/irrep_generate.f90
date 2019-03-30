@@ -78,15 +78,3 @@ close (23)
 end subroutine irrep_generate
 
 
-
-
-
-
-
-
-
-
-
-
-
-
