@@ -40,17 +40,17 @@ subroutine young_frame_S3
 do i=1,non_deg
 j=((i-1)*6)
 j=j+1
-cof_p11(j) = 1.d0; p11(j,1)= aa(i,1);p11(j,2)= aa(i,2);p11(j,3)=aa(i,3)
+cof_p11(j) = 1.d0; p11(j,1)= aa(i,1);p11(j,2)= aa(i,2);p11(j,3)=aa(i,3) ! e
 j=j+1
-cof_p11(j) =-1.d0; p11(j,1)= aa(i,2);p11(j,2)= aa(i,1);p11(j,3)=aa(i,3)
+cof_p11(j) =-1.d0; p11(j,1)= aa(i,2);p11(j,2)= aa(i,1);p11(j,3)=aa(i,3) ! 12
 j=j+1
-cof_p11(j) = 0.5d0; p11(j,1)= aa(i,3);p11(j,2)= aa(i,2);p11(j,3)=aa(i,1)
+cof_p11(j) = 0.5d0; p11(j,1)= aa(i,3);p11(j,2)= aa(i,2);p11(j,3)=aa(i,1) ! 13
 j=j+1
-cof_p11(j) = 0.5d0; p11(j,1)= aa(i,1);p11(j,2)= aa(i,3);p11(j,3)=aa(i,2)
+cof_p11(j) = 0.5d0; p11(j,1)= aa(i,1);p11(j,2)= aa(i,3);p11(j,3)=aa(i,2) ! 23
 j=j+1
-cof_p11(j) =-0.5d0; p11(j,1)= aa(i,3);p11(j,2)= aa(i,1);p11(j,3)=aa(i,2)
+cof_p11(j) =-0.5d0; p11(j,1)= aa(i,3);p11(j,2)= aa(i,1);p11(j,3)=aa(i,2) ! 123
 j=j+1
-cof_p11(j) =-0.5d0; p11(j,1)= aa(i,2);p11(j,2)= aa(i,3);p11(j,3)=aa(i,1)
+cof_p11(j) =-0.5d0; p11(j,1)= aa(i,2);p11(j,2)= aa(i,3);p11(j,3)=aa(i,1) ! 132
 list_p11(i+1) =j
 end do
 
@@ -63,13 +63,13 @@ end do
 do i=1,non_deg
 j=((i-1)*4)
 j=j+1
-cof_p21(j) = sqrt(3.d0)/2.d0; p21(j,1)= aa(i,3);p21(j,2)= aa(i,2);p21(j,3)=aa(i,1)
+cof_p21(j) = sqrt(3.d0)/2.d0; p21(j,1)= aa(i,3);p21(j,2)= aa(i,2);p21(j,3)=aa(i,1) ! 13
 j=j+1
-cof_p21(j) =-sqrt(3.d0)/2.d0; p21(j,1)= aa(i,1);p21(j,2)= aa(i,3);p21(j,3)=aa(i,2)
+cof_p21(j) =-sqrt(3.d0)/2.d0; p21(j,1)= aa(i,1);p21(j,2)= aa(i,3);p21(j,3)=aa(i,2) ! 23
 j=j+1
-cof_p21(j) =-sqrt(3.d0)/2.d0; p21(j,1)= aa(i,3);p21(j,2)= aa(i,1);p21(j,3)=aa(i,2)
+cof_p21(j) =-sqrt(3.d0)/2.d0; p21(j,1)= aa(i,3);p21(j,2)= aa(i,1);p21(j,3)=aa(i,2) ! 123
 j=j+1
-cof_p21(j) = sqrt(3.d0)/2.d0; p21(j,1)= aa(i,2);p21(j,2)= aa(i,3);p21(j,3)=aa(i,1)
+cof_p21(j) = sqrt(3.d0)/2.d0; p21(j,1)= aa(i,2);p21(j,2)= aa(i,3);p21(j,3)=aa(i,1) ! 132
 list_p21(i+1) =j
 end do
 
@@ -79,7 +79,7 @@ end do
 !write(6,*) list_p11(non_deg+1)
 j = list_p11(non_deg+1)
 do i=non_deg+1,n_weyl
-j=j+1
+j=j+1 
 cof_p11(j) =  sqrt(3.d0)/2.d0; p11(j,1)= aa(i,3);p11(j,2)= aa(i,2);p11(j,3)=aa(i,1)
 j=j+1
 cof_p11(j) = -sqrt(3.d0)/2.d0; p11(j,1)= aa(i,1);p11(j,2)= aa(i,3);p11(j,3)=aa(i,2)
@@ -116,6 +116,11 @@ end do
 
 !do i=1,list_p11(n_weyl+1)
 ! write(6,*) i, cof_p11(i),p11(i,:)
+!end do
+
+
+!do i=1,list_p21(n_weyl+1)                                                                 
+! write(6,*) i, cof_p21(i),p21(i,:)                                                        
 !end do
 
 !do i=1,n_weyl

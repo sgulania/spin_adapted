@@ -1,4 +1,7 @@
-subroutine one_element(p1,p2,s1,s2,cp1,cp2,cs1,cs2,np1,np2,ns1,ns2,val)
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! Subroutine for evaluating one element of Hamiltonian Matrix
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+subroutine one_element(p1,p2,s1,s2,cp1,cp2,cs1,cs2,np1,np2,ns1,ns2,val,over)
   USE variables
   implicit none
   
@@ -25,6 +28,9 @@ subroutine one_element(p1,p2,s1,s2,cp1,cp2,cs1,cs2,np1,np2,ns1,ns2,val)
 
  norm_aa1=0.d0;
  norm_aa2=0.d0;
+
+ norm_bb1=0.d0;
+ norm_bb2=0.d0;
 
 ! Computing norm square of phi_11(i)
 
@@ -108,7 +114,6 @@ val2=0;
 !         write(6,*) over         
       end do
     end do
-!     write(6,*) over
 !     over = 0.d0
 
     do i=1,np2
@@ -122,14 +127,17 @@ val2=0;
 !         write(6,*) over
       end do
     end do
+! write(6,*) i,j,over
 
 ! This is more crucial step 
+
 !
 !1. This assuming the alpha1 and alpha2 are already orthonormal and normalizing it with norms
 !   of individual part
 !
-   val= (val1+val2)/(sqrt((norm_aa1+norm_bb1))*sqrt((norm_aa2+norm_bb2)))
-!   write (6,*) val,"val"
+   val= (val1+val2)!/(sqrt((norm_aa1+norm_bb1))*sqrt((norm_aa2+norm_bb2)))
+!   write (6,*) val,val1,val2!,norm_aa1,norm_bb1,norm_aa2,norm_bb2,"val"
+
 !2. This assuming the alpha1 and alpha2 are already orthonormal and using the direct expression
 !   the book by Ruben Paunz
 !

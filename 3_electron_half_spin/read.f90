@@ -44,6 +44,7 @@ subroutine read_write
         EEOv(l,j,k,i) = EEOv(i,k,j,l)
       end do      
      close(103)
-   call orthogonal(Ov,HOv,EEOv)
+!    call orthogonal(Ov,HOv,EEOv)
+    call non_orthogonal(Ov,HOv,EEOv)
 !   write(6,*) "Pass Read"
 end subroutine read_write

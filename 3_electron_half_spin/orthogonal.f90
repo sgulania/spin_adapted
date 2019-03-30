@@ -20,6 +20,9 @@ subroutine orthogonal(Ov,HOv,EEOv)
  LWORK=3*n_bas-1
  call DSYEV( 'V', 'U', n_bas, Ov, n_bas, W, WORK, LWORK, INFO )
 
+! do i=1,n_bas
+! print*, 'overlap', W(i)
+! end do 
  do i=1,n_bas
     do  j=1,n_bas
       X1(i,j)=Ov(i,j)/sqrt(W(j))
@@ -47,6 +50,10 @@ H=matmul(transpose(X1),matmul(HOv,X1))
 
 !do i =1,n_bas
 !  print*,S(i,:)
+!end do
+
+!do i =1,n_bas                                                                             
+!  print*,H(i,:)                                                                           
 !end do
 
 do i=1,n_bas
