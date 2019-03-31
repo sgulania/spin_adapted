@@ -1,7 +1,10 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ! Hard-coded subroutine for 3 electron and S=1/2
 ! Generate the wavefunction and call subroutine
-! for computing the Hamiltonian matrix
+! for computing the Hamiltonian matrix. In this case
+! the wave function is given by
+!   Psi = phi_1 X theta_1 + phi_2 X theta_2 , 
+! where theta_1 and theta_2 are orthonormal. 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 subroutine young_frame_S3
@@ -16,12 +19,8 @@ subroutine young_frame_S3
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ! weyl - contains ordered elements of each weyl tabuleau
-! Psi = phi_1 X theta_1 + phi_2 X theta_2 , where 
-! theta_1 and theta_2 are orthonormal. 
-! cof_phi_1 = set of coefficients for each permuatation in 
-! phi_1
-! cof_phi_2 = set of coefficients for each permuatation in
-! phi_2
+! cof_phi_1 - set of coefficients for each permuatation in phi_1
+! cof_phi_2 - set of coefficients for each permuatation in phi_2
 ! list_phi_1 - array list for phi_1
 ! list_phi_2 - array list for phi_2
 ! n_phi_1 - number of elements in phi_1
