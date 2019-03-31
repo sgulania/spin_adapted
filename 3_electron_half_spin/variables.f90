@@ -1,3 +1,7 @@
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! Common variable accessebile by any subroutine
+! USE VARIABLE in the begining of subroutine
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 module variables
   implicit none  
   integer n_el, sp_deg, n_bas, n_weyl

@@ -1,5 +1,7 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!Subroutine for evaluating Hamiltonian
+!Subroutine for evaluating Hamiltonian matrix
+!Input - Wavefunction 
+!Output - Spectrum
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 subroutine hamiltonian(cof_p11,cof_p21,p11,p21,list_p11,list_p21,n_p11,n_p21)

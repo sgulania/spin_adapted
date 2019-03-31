@@ -1,3 +1,9 @@
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! Hard-coded subroutine for 3 electron and S=1/2
+! Generate the wavefunction and call subroutine
+! for computing the Hamiltonian matrix
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 subroutine young_frame_S3
   USE variables
   implicit none
