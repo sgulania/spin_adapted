@@ -1,6 +1,6 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ! Spin Adapted using Young Frame 
-! Authors - Sahil Gulania(1) and James Daniel Whitfield(2)
+! Authors - Sahil Gulania and James Daniel Whitfield
 ! University of Southern California and Dartmouth College
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !    Work flow 
