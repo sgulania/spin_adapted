@@ -5,18 +5,29 @@ subroutine one_element(p1,p2,s1,s2,cp1,cp2,cs1,cs2,np1,np2,ns1,ns2,val,over)
   USE variables
   implicit none
   
-  integer i,j,k,l,m,n,o
+  integer i,j,k
   integer np1,np2,ns1,ns2
   real*8 cp1(np1),cp2(np2),cs1(ns1),cs2(ns2),val
   integer p1(np1,n_el),p2(np2,n_el),s1(ns1,n_el),s2(ns2,n_el)
   real*8 v,val1,val2,nm,norm_aa1,norm_aa2,norm_bb1,norm_bb2,over
-!--------------------------------------------------------------------------------
-! This subroutines compute 
-!  part <PHI(i)|H|PHI(j)>  where 
-! PHI(i)=phi_11(i)*alpha_1 + phi_12(i)*alpha_2
-! PHI(i)=phi_11(j)*alpha_1 + phi_12(j)*alpha_2
-! and <alpha_1|alpha_2> = 0 i.e orthogonal
-!--------------------------------------------------------------------------------
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!Hamiltonian value for spatial wavefunction assuming 
+!p and s are two spatial parts for orthogonal spin eignefunction
+
+!p1 + s1 -> bra  
+!p2 + s2 -> ket
+!np1 - number of element in p1
+!np2 - number of element in p2
+!ns1 - number of element in s1                                                            
+!ns2 - number of element in s2
+!cp1 - coefficieng of p1                                                            
+!cp2 - coefficieng of p2                                                            
+!cs1 - coefficieng of s1                                                           
+!cs2 - coefficieng of s2 
+!val = hamiltonian = <bra|H|ket>
+!over = overlap = <brak|ket|>
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
 !write(6,*)s1(ns1,:)
@@ -132,7 +143,7 @@ val2=0;
 ! This is more crucial step 
 
 !
-!1. This assuming the alpha1 and alpha2 are already orthonormal and normalizing it with norms
+!1. This assuming the theta1 and theta2 are already orthonormal and normalizing it with norms
 !   of individual part
 !
    val= (val1+val2)
@@ -146,8 +157,8 @@ val2=0;
 
 !3. This assuming the alpha1 and alpha2 are not normalized and get constructed from conjugate young
 !   tabulae
-!   alpha1= sqrt(3)[beta*alpha*alpha - alpha*alpha*beta]
-!   alpha2= [2*alpha*alpha*beta - beta*lpha*alpha - alpha*beta*alpha ]
+!   theta1= sqrt(3)[beta*alpha*alpha - alpha*alpha*beta]
+!   theta2= [2*alpha*alpha*beta - beta*lpha*alpha - alpha*beta*alpha ]
 !   <alpha1|alpha1> = 6 ; <alpha2|alpha2>=6
 !
 !  val= (val1*6.d0+val2*3.d0)/(sqrt((norm_aa1*6.d0+norm_bb1*3.d0))*sqrt((norm_aa2*6.d0+norm_bb2*3.d0)))
