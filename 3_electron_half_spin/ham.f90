@@ -1,9 +1,12 @@
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! This subroutine computes <123|H|456> 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 subroutine ham(a,p,v)
 USE variables
 implicit none
 integer a(3),p(3)
 real*8  v
-! this subroutine computes <123|H|456>
 
 v = H(a(1),p(1))*S(a(2),p(2))*S(a(3),p(3))+ &
     H(a(2),p(2))*S(a(1),p(1))*S(a(3),p(3))+ &

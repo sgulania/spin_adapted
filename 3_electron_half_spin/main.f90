@@ -15,7 +15,7 @@
 ! 7. Output - Spectrum
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ! Present code use irrpes directly and generate wavefunction
-! Using the wavefunction evaluate Hamiltonian
+! and using the wavefunction to evaluate Hamiltonian
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 program main

@@ -135,7 +135,8 @@ val2=0;
 !1. This assuming the alpha1 and alpha2 are already orthonormal and normalizing it with norms
 !   of individual part
 !
-   val= (val1+val2)!/(sqrt((norm_aa1+norm_bb1))*sqrt((norm_aa2+norm_bb2)))
+   val= (val1+val2)
+!   (sqrt((norm_aa1+norm_bb1))*sqrt((norm_aa2+norm_bb2)))
 !   write (6,*) val,val1,val2!,norm_aa1,norm_bb1,norm_aa2,norm_bb2,"val"
 
 !2. This assuming the alpha1 and alpha2 are already orthonormal and using the direct expression
