@@ -35,4 +35,6 @@
 Irrep.dat
 standard_young_frames.dat
 fort*
-
+Transformed_Hamiltonian_Matrix.out
+Hamiltonian_Matrix.out
+Overlap.out 

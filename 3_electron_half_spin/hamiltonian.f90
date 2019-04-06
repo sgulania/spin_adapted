@@ -74,16 +74,20 @@ do i=1,n_weyl
     end do
 end do
 
+!open (unit = 23, file = "Hamiltonian_Matrix.out") 
+! Printing Hamiltonian matrix for 3-electron wavefunction obtained using                      
+! Young frame formalism 
+!do i=1,n_weyl
+! write(23,"(9f13.8)")H_f(i,:)
+!enddo
+
+
+open (unit = 24, file = "Overlap.out")
+
 ! Printing overlap matrix for 3-electron wavefunction obtained using
 ! Young frame formalism
 do i=1,n_weyl
  write(24,"(9f13.8)")S_f(i,:)
-enddo
-
-! Printing Hamiltonian matrix for 3-electron wavefunction obtained using                      
-! Young frame formalism 
-do i=1,n_weyl
- write(23,"(9f13.8)")H_f(i,:)
 enddo
 
 !--------------------------------------------------------------------------------
@@ -112,17 +116,18 @@ X_symm=matmul(X_S,transpose(Ov))
 X_S=X_symm                                     
 
 
-do i=1,n_weyl                                                                             
- write(27,*)W_S(i)                                                             
-enddo
+!do i=1,n_weyl                                                                             
+! write(27,*)W_S(i)                                                             
+!enddo
                             
-do i=1,n_weyl                                                                             
- write(26,"(9f13.8)")X_S(i,:)                                                            
-enddo                                                              
+!do i=1,n_weyl                                                                             
+! write(26,"(9f13.8)")X_S(i,:)                                                            
+!enddo                                                              
                                                                                           
 H_S=matmul(transpose(X_S),matmul(H_f,X_S))                                                     
 !--------------------------------------------------------------------------------
 
+open (unit = 25, file = "Transformed_Hamiltonian_Matrix.out") 
 
 !Digonalizing the transformed Hamiltonian matrix
 do i=1,n_weyl                                                                             

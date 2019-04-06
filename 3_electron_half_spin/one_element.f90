@@ -15,8 +15,9 @@ subroutine one_element(p1,p2,s1,s2,cp1,cp2,cs1,cs2,np1,np2,ns1,ns2,val,over)
 !Hamiltonian value for spatial wavefunction assuming 
 !p and s are two spatial parts for orthogonal spin eignefunction
 
-!p1 + s1 -> bra  
-!p2 + s2 -> ket
+!p1 \times theta1 + s1 \times theta_2 -> bra  
+!p2 \times theta1 + s2 \times theta2  -> ket
+! <theta1|theta2> = 0 -> orthogonal
 !np1 - number of element in p1
 !np2 - number of element in p2
 !ns1 - number of element in s1                                                            
@@ -26,7 +27,7 @@ subroutine one_element(p1,p2,s1,s2,cp1,cp2,cs1,cs2,np1,np2,ns1,ns2,val,over)
 !cs1 - coefficieng of s1                                                           
 !cs2 - coefficieng of s2 
 !val = hamiltonian = <bra|H|ket>
-!over = overlap = <brak|ket|>
+!over = overlap = <brak|ket>
 !--------------------------------------------------------------------------------
 
 
