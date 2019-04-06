@@ -1,11 +1,11 @@
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!--------------------------------------------------------------------------------
 ! Hard-coded subroutine for 3 electron and S=1/2
 ! Generate the wavefunction and call subroutine
 ! for computing the Hamiltonian matrix. In this case
 ! the wave function is given by
 !   Psi = phi_1 X theta_1 + phi_2 X theta_2 , 
 ! where theta_1 and theta_2 are orthonormal. 
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!--------------------------------------------------------------------------------
 
 subroutine young_frame_S3
   USE variables
@@ -17,7 +17,7 @@ subroutine young_frame_S3
   integer, dimension(:), allocatable  ::  list_phi_1,list_phi_2 
   integer n_phi_1,n_phi_2
 
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!--------------------------------------------------------------------------------
 ! weyl - contains ordered elements of each weyl tabuleau
 ! cof_phi_1 - set of coefficients for each permuatation in phi_1
 ! cof_phi_2 - set of coefficients for each permuatation in phi_2
@@ -25,7 +25,7 @@ subroutine young_frame_S3
 ! list_phi_2 - array list for phi_2
 ! n_phi_1 - number of elements in phi_1
 ! n_phi_2 - number of elements in phi_2
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!--------------------------------------------------------------------------------
 
   open(unit = 104, file = 'weyl.dat', status = 'old', action = 'read')
   read(104,*) n_weyl  
@@ -50,8 +50,9 @@ subroutine young_frame_S3
 
   list_phi_1(1) =0
   list_phi_2(1) =0
-!------------------------------------------------------------------
-! Generating all the phi_1
+
+!--------------------------------------------------------------------------------
+! Generating phi_1
 do i=1,n_weyl
 j=((i-1)*6)
 j=j+1
@@ -69,7 +70,7 @@ cof_phi_1(j) =-0.5d0; phi_1(j,1)= weyl(i,2);phi_1(j,2)= weyl(i,3);phi_1(j,3)=wey
 list_phi_1(i+1) =j
 end do
 
-!-----------------------------------------------------------------
+!--------------------------------------------------------------------------------
 ! Generating phi_2
 do i=1,n_weyl
 j=((i-1)*4)

@@ -1,6 +1,6 @@
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!--------------------------------------------------------------------------------
 ! Subroutine for evaluating one element of Hamiltonian Matrix
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!--------------------------------------------------------------------------------
 subroutine one_element(p1,p2,s1,s2,cp1,cp2,cs1,cs2,np1,np2,ns1,ns2,val,over)
   USE variables
   implicit none
@@ -11,7 +11,7 @@ subroutine one_element(p1,p2,s1,s2,cp1,cp2,cs1,cs2,np1,np2,ns1,ns2,val,over)
   integer p1(np1,n_el),p2(np2,n_el),s1(ns1,n_el),s2(ns2,n_el)
   real*8 v,val1,val2,nm,norm_aa1,norm_aa2,norm_bb1,norm_bb2,over
 
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!--------------------------------------------------------------------------------
 !Hamiltonian value for spatial wavefunction assuming 
 !p and s are two spatial parts for orthogonal spin eignefunction
 
@@ -27,7 +27,7 @@ subroutine one_element(p1,p2,s1,s2,cp1,cp2,cs1,cs2,np1,np2,ns1,ns2,val,over)
 !cs2 - coefficieng of s2 
 !val = hamiltonian = <bra|H|ket>
 !over = overlap = <brak|ket|>
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!--------------------------------------------------------------------------------
 
 
 !write(6,*)s1(ns1,:)

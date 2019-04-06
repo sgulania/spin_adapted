@@ -1,8 +1,8 @@
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!--------------------------------------------------------------------------------
 ! Spin Adapted using Young Frame 
 ! Authors - Sahil Gulania and James Daniel Whitfield
 ! University of Southern California and Dartmouth College
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!--------------------------------------------------------------------------------
 !    Work flow 
 ! 1. Read the system information - 
 !    No. electron (n_el), Spin of the system (sp_deg), Nuclear
@@ -13,11 +13,10 @@
 ! 5. Use irreps to generate wavefunction
 ! 6. Evaluate Hamiltonian matrix and perform diagonalization
 ! 7. Output - Spectrum
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!--------------------------------------------------------------------------------
 ! Present code use irrpes directly and generate wavefunction
 ! and using the wavefunction to evaluate Hamiltonian
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
+!--------------------------------------------------------------------------------
 program main
 USE variables
 
