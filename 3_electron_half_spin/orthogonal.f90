@@ -1,3 +1,7 @@
+!-------------------------------------------------------------
+! Subrouting for transforming atomic integrals into orthogonal
+! basis
+!-------------------------------------------------------------
 subroutine orthogonal(Ov,HOv,EEOv)
  USE variables
  implicit none

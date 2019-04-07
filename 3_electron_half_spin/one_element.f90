@@ -15,7 +15,7 @@ subroutine one_element(p1,p2,s1,s2,cp1,cp2,cs1,cs2,np1,np2,ns1,ns2,val,over)
 !Hamiltonian value for spatial wavefunction assuming 
 !p and s are two spatial parts for orthogonal spin eignefunction
 
-!p1 \times theta1 + s1 \times theta_2 -> bra  
+!p1 \times theta1 + s1 \times theta2 -> bra  
 !p2 \times theta1 + s2 \times theta2  -> ket
 ! <theta1|theta2> = 0 -> orthogonal
 !np1 - number of element in p1
@@ -118,10 +118,6 @@ val2=0;
     do i=1,np1
       do k=1,ns1
          call norm1(p1(i,:),s1(k,:),nm)
-!         write(6,*) p1(i,:)
-!         write(6,*) s1(k,:)
-!         write(6,*) cp1(i)
-!         write(6,*) cs1(k)
          over=over+cp1(i)*cs1(k)*nm
 !         write(6,*) over         
       end do
@@ -131,10 +127,6 @@ val2=0;
     do i=1,np2
       do k=1,ns2
          call norm1(p2(i,:),s2(k,:),nm)
-!         write(6,*) p2(i,:)
-!         write(6,*) s2(k,:)
-!         write(6,*) cp2(i)
-!         write(6,*) cs2(k)
          over=over+cp2(i)*cs2(k)*nm
 !         write(6,*) over
       end do

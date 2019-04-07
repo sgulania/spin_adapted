@@ -23,11 +23,7 @@ real*8 cof_phi_1(n_phi_1),cof_phi_2(n_phi_2)
 
 !--------------------------------------------------------------------------------
 ! Variable for orthogonalization and digonalization
-integer LWORK_f,LWORK_S,INFO
-real*8 H_f(n_weyl,n_weyl), S_f(n_weyl,n_weyl), W_f(n_weyl),WORK_f(3*n_weyl-1)
-real*8 Ov(n_weyl,n_weyl), W_S(n_weyl),WORK_S(3*n_weyl-1) 
-real*8 X_S(n_weyl,n_weyl), H_S(n_weyl,n_weyl)
-real*8 X_symm(n_weyl,n_weyl)
+real*8 H_f(n_weyl,n_weyl), S_f(n_weyl,n_weyl), W_f(n_weyl)
 !--------------------------------------------------------------------------------
 
 integer i11,i11n,j11,j11n,i21,i21n,j21,j21n  !dummy variables
@@ -90,53 +86,20 @@ do i=1,n_weyl
  write(24,"(9f13.8)")S_f(i,:)
 enddo
 
-!--------------------------------------------------------------------------------
 ! Orthogonalizing the basis and doing Hamiltonian transformation
 ! accordingly 
- Ov=S_f                                                                                    
-                                                                                          
- LWORK_S=3*n_weyl-1                                                                          
- call DSYEV( 'V', 'U', n_weyl, Ov, n_weyl, W_S, WORK_S, LWORK_S, INFO )                           
-                                                                                          
-! do i=1,n_weyl                                                                             
-!    do  j=1,n_weyl                                                                         
-!      X_S(i,j)=Ov(i,j)/sqrt(W_S(j))                                                          
-!    end do                                                                                
-! end do                                                                                   
 
-
-! Symmetric Orthogonalization                                                             
- do i=1,n_weyl                                                                                
-    do  j=1,n_weyl                                                                           
-      X_S(i,j)=Ov(i,j)/sqrt(W_S(j))                                                         
-    end do                                                                               
- end do                                                                                  
-X_symm=matmul(X_S,transpose(Ov))                                                           
-!                                                                                         
-X_S=X_symm                                     
-
-
-!do i=1,n_weyl                                                                             
-! write(27,*)W_S(i)                                                             
-!enddo
-                            
-!do i=1,n_weyl                                                                             
-! write(26,"(9f13.8)")X_S(i,:)                                                            
-!enddo                                                              
-                                                                                          
-H_S=matmul(transpose(X_S),matmul(H_f,X_S))                                                     
-!--------------------------------------------------------------------------------
+call ortho_transformation(S_f,H_f,n_weyl)
 
 open (unit = 25, file = "Transformed_Hamiltonian_Matrix.out") 
 
 !Digonalizing the transformed Hamiltonian matrix
 do i=1,n_weyl                                                                             
- write(25,"(9f13.8)")H_S(i,:)                                                             
+ write(25,"(9f13.8)")H_f(i,:)                                                             
 enddo  
 
 
-LWORK_f=3*n_weyl-1
-call DSYEV( 'V', 'U', n_weyl, H_S, n_weyl, W_f, WORK_f, LWORK_f, INFO)
+call diagonalization(H_f,n_weyl,W_f)
 
  write(6,*) "Spectrum for Sz=1/2"
 do i=1,n_weyl
