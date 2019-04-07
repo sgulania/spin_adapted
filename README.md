@@ -1,6 +1,5 @@
 # SAuYF : Spin Adaptation using Young Frames
 --------------------------------------------------------------------------------         
- Spin Adapted using Young Frame                                                          
  Authors - Sahil Gulania and James Daniel Whitfield                                      
  University of Southern California and Dartmouth College                                 
 --------------------------------------------------------------------------------         
@@ -15,6 +14,6 @@
  6. Evaluate Hamiltonian matrix and perform diagonalization                              
  7. Output - Spectrum                                                                    
 --------------------------------------------------------------------------------         
- Present code use irrpes directly and generate wavefunction                              
+ Present code use irrpes directly to generate wavefunction                              
  and using that wavefunction to evaluate Hamiltonian                                      
 -------------------------------------------------------------------------------- 
