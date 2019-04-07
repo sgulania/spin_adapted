@@ -1,8 +1,0 @@
-FCI C++
-  JDWhitfield 2017
-
-Requires 
-   LAPACK
-   libint <https://github.com/evaleev/libint> 
-   Eigen <http://eigen.tuxfamily.org>
-   C++ 11
